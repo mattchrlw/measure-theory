@@ -93,20 +93,21 @@ def read_file(path):
 with open('test.csv', mode='w') as csv_file:
     writer = csv.writer(csv_file)
     # writer.writerow(['Title', 'Artist', 'Difficulty', 'Block', 'Summary', 'Detailed'])
-    for root, dirs, files in os.walk("."):
+    dirstring = "/Users/mattchrlw/Documents/StepMania-5.0.12/Songs"
+    for root, dirs, files in os.walk(dirstring):
         for f in files:
             if f.endswith('.sm'):
                 path = root + "/" + f
-                print(path)
+                pack_name = path.split(dirstring)[1].split('/')[1]
                 file = read_file(path)
                 for i in range(len(file[3])):
                     if file[1]:
-                        writer.writerow([file[0] + ' (' + file[1] + ')', file[2], file[3][i][1], file[3][i][2], file[3][i][3], file[3][i][4]])
+                        writer.writerow([pack_name, file[0] + ' (' + file[1] + ')', file[2], file[3][i][1], file[3][i][2], file[3][i][3], file[3][i][4]])
                     else:
-                        writer.writerow([file[0], file[2], file[3][i][1], file[3][i][2], file[3][i][3], file[3][i][4]])
+                        writer.writerow([pack_name, file[0], file[2], file[3][i][1], file[3][i][2], file[3][i][3], file[3][i][4]])
                     
 f = open('test.csv', 'r')
-reader = csv.DictReader(f, fieldnames=('Title', 'Artist', 'Difficulty', 'Block', 'Summary', 'Detailed'))
+reader = csv.DictReader(f, fieldnames=('Pack', 'Title', 'Artist', 'Difficulty', 'Block', 'Summary', 'Detailed'))
 out = json.dumps([row for row in reader])
 f = open('test.json', 'w')
 f.write(out)
